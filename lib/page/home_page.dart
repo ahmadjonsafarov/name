@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:name/page/add_name.dart';
 
 class Home_Page extends StatefulWidget {
   final String name;
@@ -19,10 +20,8 @@ class _Home_PageState extends State<Home_Page> {
     final url=Uri.parse('https://api.genderize.io/?name=${widget.name}');
     final res= await http.get(url);
     data=jsonDecode(res.body);
-    print(data);
     isLoading=false;
     setState(() {});
-
   }
   @override
   void initState() {
@@ -41,14 +40,23 @@ class _Home_PageState extends State<Home_Page> {
             :Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children:  [
-            Text("name: ${data['name']}"),
+            Text("name: ${data['name']}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20),),
+            SizedBox(height: 5),
+            Text("gender: ${data['gender']}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20),),
             SizedBox(height: 5,),
-            Text("gender: ${data['gender']}"),
-            SizedBox(height: 5,),
-            Text("count: ${data['count']}"),
+            Text("count: ${data['count']}",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20),),
           ],
         ),
-      )
+      ),
+        floatingActionButton: FloatingActionButton(
+
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return Add_name();
+          }));
+        },
+        child: Icon(Icons.add),
+    ),
     );
   }
 }
